@@ -1,230 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resume</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ name }} – Resume</title>
     <style>
-        /* Global Reset to prevent unexpected offsets in xhtml2pdf */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        -webkit-box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f4f6f8;
+        color: #111418;
+        font-family: Inter, system-ui;
+        -webkit-font-smoothing: antialiased;
+      }
+      .page {
+        width: 720px;
+        background: #fff;
+        margin: 32px auto;
+        padding: 40px 44px;
+        box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      }
+      .name {
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-align: center;
+        margin: 0 0 12px;
+      }
+      .top-links {
+        display: flex;
+        display: -webkit-box;
+        -webkit-box-pack: justify;
+        display: -webkit-flex;
+        flex-wrap: wrap; /* allows multiple rows */
+        gap: 40px; /* row-gap, column-gap */
+        justify-content: center;
+        max-width: 600px; /* optional: control wrapping */
+        margin: 0 auto;
+      }
 
-        @page {
-            size: a4 portrait;
-            margin: 1.5cm; /* Slightly more margin for a cleaner print look */
-        }
-        
-        body {
-            font-family: Helvetica, Arial, sans-serif;
-            color: #333;
-            line-height: 1.4;
-            font-size: 10.5pt; /* Slightly smaller for better fit */
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1 {
-            color: #512da8;
-            font-size: 24pt;
-            text-transform: uppercase;
-            margin-bottom: 5pt;
-        }
-        .summary {
-            font-size: 10.5pt;
-            margin-bottom: 25pt;
-            line-height: 1.3;
-            color: #444;
-        }
-        h2 {
-            color: #512da8;
-            font-size: 12pt;
-            margin-top: 20pt;    /* Default top margin for most h2s */
-            margin-bottom: 8pt;
-            padding-bottom: 3pt;
-            text-transform: uppercase;
-            border-bottom: 1.5px solid #ddd;
-            letter-spacing: 0.5pt;
-        }
-        
-        /* Specific classes to remove top margin for the first h2 in each column */
-        .first-h2 {
-            margin-top: 0pt;
-        }
-
-        /* --- MAIN LAYOUT TABLE --- */
-        table.main-layout {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        td.left-col {
-            width: 65%;           /* Adjusted for better balance */
-            vertical-align: top;
-            padding-right: 15pt;  /* Explicit space between columns */
-        }
-        td.right-col {
-            width: 35%;
-            vertical-align: top;
-            padding-left: 15pt;   /* Added padding on this side too */
-            border-left: 1px solid #eee; /* Optional: subtle divider line */
-        }
-
-        /* --- JOB/PROJECT ITEMS --- */
-        .job-block, .project-block {
-            margin-bottom: 12pt;
-            page-break-inside: avoid; /* Try to keep job entries together on one page */
-        }
-        table.job-table {
-            width: 100%;
-            margin-bottom: 2pt;
-        }
-        td.job-company { 
-            font-weight: bold; 
-            font-size: 11pt;
-            color: #222;
-        }
-        td.job-dates { 
-            text-align: right; 
-            font-size: 10pt;
-            color: #666;
-        }
-        td.job-title { 
-            font-style: italic; 
-            color: #444;
-            font-size: 10.5pt;
-        }
-        td.job-location { 
-            text-align: right; 
-            font-style: italic; 
-            color: #666;
-            font-size: 10pt;
-        }
-
-        /* LISTS */
-        ul {
-            margin-top: 4pt;
-            padding-left: 12pt;
-        }
-        li {
-            margin-bottom: 3pt;
-            font-size: 10pt;
-            color: #444;
-            line-height: 1.3;
-        }
-
-        /* --- RIGHT COLUMN SPECIFIC --- */
-        .contact-section { margin-bottom: 20pt; }
-        .contact-item { 
-            margin-bottom: 4pt; 
-            font-size: 10pt;
-            color: #444;
-        }
-
-        .skill-block { margin-bottom: 15pt; }
-        .skill-category { 
-            font-weight: bold; 
-            font-size: 10.5pt; 
-            color: #333; 
-            margin-bottom: 2pt;
-        }
-        .right-col ul {
-            margin-top: 0;
-            padding-left: 10pt;
-        }
-
-        .edu-block {
-            margin-bottom: 12pt;
-        }
-        .edu-inst { font-weight: bold; font-size: 10.5pt; color: #222; }
-        .edu-deg { font-style: italic; font-size: 10pt; margin-bottom: 2pt; }
-        .edu-meta { font-size: 10pt; color: #666; }
-
+      .link {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        margin-right: 10%;
+        text-decoration: none;
+        color: #1355ff;
+        font-size: 14px;
+      }
+      .link svg {
+        width: 14px;
+        height: 14px;
+      }
+      hr.rule {
+        border: 0;
+        height: 1px;
+        background: #d9dde3;
+        margin: 14px 0;
+      }
+      .section-title {
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+      p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+      .skill-row {
+        margin: 2px 0;
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 13px;
+        color: #3b4754;
+        margin: 2px 0 0;
+      }
+      .project {
+        margin: 10px 0 0;
+      }
+      .project-title {
+        font-weight: bold;
+        margin: 0;
+      }
+      .project-title a {
+        color: #111418;
+        text-decoration: none;
+      }
+      .ext {
+        width: 12px;
+        height: 12px;
+        vertical-align: -2px;
+      }
+      ul.bullets {
+        margin: 6px 0 0 18px;
+        padding: 0;
+      }
+      ul.bullets li {
+        margin: 4px 0;
+        font-size: 14px;
+        line-height: 1.45;
+      }
     </style>
-</head>
-<body>
-    <!-- HEADER -->
-    <h1>{{ name }}</h1>
-    <!-- <div class="summary">{{ summary }}</div> -->
+  </head>
+  <body>
+    <main class="page">
+      <h1 class="name">{{name}}</h1>
 
-    <!-- MAIN LAYOUT TABLE -->
-    <!-- cellpadding/cellspacing=0 is CRUCIAL for xhtml2pdf exact layouts -->
-    <table class="main-layout" cellpadding="0" cellspacing="0">
-        <tr>
-            <!-- LEFT COLUMN -->
-            <td class="left-col">
-                <h2 class="first-h2">Work Experience</h2>
-                {% for job in work_experience %}
-                <div class="job-block">
-                    <table class="job-table" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="job-company">{{ job.company }}</td>
-                            <td class="job-dates">{{ job.dates }}</td>
-                        </tr>
-                        <tr>
-                            <td class="job-title">{{ job.title }}</td>
-                            <td class="job-location">{{ job.location }}</td>
-                        </tr>
-                    </table>
-                    <ul>
-                        {% for detail in job.details %}
-                        <li>{{ detail }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
+      <div class="top-links">
+        <a class="link" href="tel:{{contact.phone}}">
+          <!-- <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 ..."></path>
+          </svg> -->
+          {{contact.phone}}
+        </a>
 
-                <h2>Projects</h2>
-                {% for project in projects %}
-                <div class="project-block">
-                    <div style="font-weight: bold; font-size: 11pt; color: #222;">
-                        {{ project.name }}
-                    </div>
-                    <div style="font-style: italic; font-size: 10pt; color: #555; margin-bottom: 4pt;">
-                        {{ project.technologies }}
-                    </div>
-                    <ul>
-                        {% for detail in project.details %}
-                        <li>{{ detail }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
-            </td>
+        <a class="link" href="mailto:{{contact.gmail}}">
+          <!-- <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M4 4h16v16H4z" />
+            <path d="m22 6-10 7L2 6" />
+          </svg> -->
+          {{contact.gmail}}
+        </a>
 
-            <!-- RIGHT COLUMN -->
-            <td class="right-col">
-                <div class="contact-section">
-                    <h2 class="first-h2">Contact</h2>
-                    <div class="contact-item">{{ contact.phone }}</div>
-                    <div class="contact-item">{{ contact.email }}</div>
-                    <!-- Trimming https:// for cleaner print look, optional -->
-                    <div class="contact-item">{{ contact.linkedin|replace('https://', '')|replace('www.', '') }}</div>
-                    <div class="contact-item">{{ contact.github|replace('https://', '')|replace('www.', '') }}</div>
-                </div>
+        <a class="link" href="{{contact.linkedin}}">
+          <!-- <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M10 13a5 5 0 0 0 7.07 0 ..." />
+          </svg> -->
+          LinkedIn/profile
+        </a>
 
-                <h2>Skills</h2>
-                {% for category, skills_list in skills.items() %}
-                <div class="skill-block">
-                    <div class="skill-category">{{ category }}</div>
-                    <ul>
-                        {% for skill in skills_list %}
-                        <li>{{ skill }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
+        <a class="link" href="{{contact.github}}">
+          <!-- <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 .5a12 12 0 0 0-3.79 23.39 ..." />
+          </svg> -->
+          {{contact.github}}
+        </a>
 
-                <h2>Education</h2>
-                {% for edu in education %}
-                <div class="edu-block">
-                    <div class="edu-inst">{{ edu.institution }}</div>
-                    <div class="edu-deg">{{ edu.degree }}</div>
-                    <div class="edu-meta">{{ edu.location }}</div>
-                    <div class="edu-meta">{{ edu.dates }}</div>
-                </div>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
-</body>
+        <a class="link" href="{{portfolio}}">
+          <!-- <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M9 5V3h6v2" />
+          </svg> -->
+          portfolio/{{name}}
+        </a>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="section-title">OVERVIEW</div>
+      <p>{{summary}}</p>
+
+      <hr class="rule" />
+
+      <div class="section-title">SKILLS</div>
+      {% for category, items in skills.items() %}
+      <p class="skill-row"><b>{{category}}:</b> {{ items | join(', ') }}</p>
+      {% endfor %}
+
+      <hr class="rule" />
+
+      <div class="section-title">WORK EXPERIENCE</div>
+      {% for experience in work_experience %}
+      <p><b>Company Name -</b> {{ experience.company }}</p>
+      <p><b>Roles Held:</b> {{ experience.roles_held | join(' → ') }}</p>
+      <p><b>Duration:</b> {{ experience.dates }}</p>
+      {% for product in experience.products %}
+      <div class="project">
+        <p class="project-title">
+          {{ product.name }}
+          <svg
+            class="ext"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+            />
+            <path d="m15 3 6 6" />
+            <path d="M21 3h-6v6" />
+          </svg>
+        </p>
+        <div class="meta-row">
+          <span>{{ product.primary_role }}</span
+          ><span>{{ product.duration }}</span
+          ><span>{{ product.tech_stack | join(', ') }}</span>
+        </div>
+        <ul class="bullets">
+          <li>
+            Architected a financial automation platform that converts raw
+            datasets into executable Python scripts, improving analysis
+            efficiency and eliminating manual workflows.
+          </li>
+          {% for detail in product.details %}
+          <li>{{ detail }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %} {% endfor %}
+    </main>
+  </body>
 </html>
