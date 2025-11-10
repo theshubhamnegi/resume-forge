@@ -111,6 +111,19 @@ const ResumeComponent = () => {
             ))}</div>
         ))}
       </ResumeSection>
+      <ResumeSection title={"Education"}>
+        {SampleResumeData.education.map(edu => (
+          <div key={edu.college} className="mb-4">
+            <p className="text-sm text-gray-700">
+              {edu.college} | {edu.duration}
+            </p>
+            <p className="text-sm font-bold mt-1">
+              {edu.course}
+            </p>
+          </div>
+        ))}
+
+      </ResumeSection>
     </div>
 
   );

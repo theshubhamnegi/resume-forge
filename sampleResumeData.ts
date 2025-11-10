@@ -67,5 +67,10 @@ export const SampleResumeData = {
         }
       ]
     }
-  ]
+  ],
+  education: [{
+    college: "Maharishi Dayanand University",
+    duration: "May 2019 – May 2022",
+    course: "Bachelor of Computer Applications (BCA)"
+  }]
 }
