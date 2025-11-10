@@ -1,5 +1,5 @@
-import { SampleResumeData } from "@/sampleResumeData";
-import { SquareArrowOutUpRight } from "lucide-react";
+import { ResumeJSON } from "@/types";
+import { Github, Globe, Linkedin, LucideIcon, Mail, Phone, SquareArrowOutUpRight } from "lucide-react";
 import React from "react";
 
 const ResumeSection = ({ title, children, className }: { title: string, children: React.ReactNode, className?: string }) => {
@@ -15,37 +15,51 @@ const ResumeSection = ({ title, children, className }: { title: string, children
   </div>)
 }
 
-const ResumeComponent = () => {
+const ResumeComponent = ({ resumeJson }: { resumeJson: ResumeJSON }) => {
+  const iconMapper: Record<string, LucideIcon> = {
+    "phone": Phone,
+    "mail": Mail,
+    "linkedin": Linkedin,
+    "github": Github,
+    "globe": Globe
+  }
+
   return (
-    <div className="pt-12 px-12" style={{ backgroundColor: "#ffffff", color: "#2e2c2c" }}>
+    <div className="pt-12 px-12" style={{
+      backgroundColor: "#ffffff", color: "#2e2c2c"
+     
+    }}>
 
       <div className="text-center pb-3" style={{ borderBottom: "1px solid #2e2c2c" }}>
-        <h1 className="text-[42px] font-bold">{SampleResumeData.name}</h1>
+        <h1 className="text-[42px] font-bold">{resumeJson.name}</h1>
 
         <div className="text-sm mb-1 flex items-center justify-center flex-wrap gap-x-11 gap-y-2">
-          {SampleResumeData.contacts.map(contact => (
+          {resumeJson.contacts.map(contact => {
+            const Icon = contact.icon ? iconMapper[contact.icon.toLowerCase()] : null;
+            return (
             <a
               key={contact.label}
               href={contact.link}
               className="inline-flex items-center gap-1 underline"
               style={{ color: "#2563eb" }}
             >
-              <contact.icon size={16} />
+              {!!Icon && <Icon size={14} />}
               {contact.label}
             </a>
-          ))}
+          )
+          })}
         </div>
 
 
       </div>
 
       <ResumeSection title={"Overview"}>
-        {SampleResumeData.overview}
+        {resumeJson.overview}
       </ResumeSection>
 
       <ResumeSection title={"Skills"}>
         <div className="space-y-1">
-          {SampleResumeData.skills.map((skill, index) => (
+          {resumeJson.skills.map((skill, index) => (
             <div key={index} className="text-sm">
               <span className="font-semibold inline-block w-32">{skill.category}:</span>
               <span>{skill.items}</span>
@@ -56,8 +70,8 @@ const ResumeComponent = () => {
 
       <ResumeSection title={"Work Experience"} className="space-y-4">
 
-        {SampleResumeData.experiences.map((exp, index) => (
-          <div key={exp.company} className={`mb-6 ${index === SampleResumeData.experiences.length - 1 ? '' : 'pb-4'}`} style={index !== SampleResumeData.experiences.length - 1 ? { borderBottom: "1px solid #e5e7eb" } : {}}>
+        {resumeJson.experiences.map((exp, index) => (
+          <div key={exp.company} className={`mb-6 ${index === resumeJson.experiences.length - 1 ? '' : 'pb-4'}`} style={index !== resumeJson.experiences.length - 1 ? { borderBottom: "1px solid #e5e7eb" } : {}}>
             <div className="text-sm mb-1">
               Company Name -{" "}
               <a
@@ -112,7 +126,7 @@ const ResumeComponent = () => {
         ))}
       </ResumeSection>
       <ResumeSection title={"Education"}>
-        {SampleResumeData.education.map(edu => (
+        {resumeJson.education.map(edu => (
           <div key={edu.college} className="mb-4">
             <p className="text-sm text-gray-700">
               {edu.college} | {edu.duration}

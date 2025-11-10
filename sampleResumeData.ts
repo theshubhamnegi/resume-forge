@@ -1,30 +1,30 @@
-import { Github, Globe, Linkedin, Mail, Phone } from "lucide-react";
+import { ResumeJSON } from "./types";
 
-export const SampleResumeData = {
+export const SampleResumeData: ResumeJSON = {
   name: "DEEPAK SINGH",
   contacts: [
     {
-      icon: Phone,
+      icon: "Phone",
       label: "(+91) 9625910876",
       link: "tel:+919625910876"
     },
     {
-      icon: Mail,
+      icon: "Mail",
       label: "deepaksingh.dev.2002@gmail.com",
       link: "mailto:deepaksingh.dev.2002@gmail.com"
     },
     {
-      icon: Linkedin,
+      icon: "Linkedin",
       label: "LinkedIn/profile",
       link: "#"
     },
     {
-      icon: Github,
+      icon: "Github",
       label: "github/deepakeon",
       link: "#"
     },
     {
-      icon: Globe,
+      icon: "Globe",
       label: "portfolio/deepak",
       link: "#"
     }
