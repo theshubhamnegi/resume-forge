@@ -1,10 +1,9 @@
 {
   "name": "JANE DOE",
   "summary": "Proactive Software Developer with [X] years of experience building and maintaining web applications. Proficient in multiple programming languages and frameworks. Passionate about problem-solving and collaborating with cross-functional teams to deliver high-quality products.",
-  "portfolio": "portfolio.janedoe.com",
   "contact": {
     "phone": "+1 (555) 123-4567",
-    "gmail": "jane.doe@example.com",
+    "email": "jane.doe@example.com",
     "linkedin": "linkedin.com/in/janedoe",
     "github": "github.com/janedoe"
   },
@@ -12,21 +11,23 @@
     {
       "company": "TechCorp Solutions",
       "location": "San Francisco, CA",
-      "roles_held": ["Senior Software Engineer"],
+      "title": "Senior Software Engineer",
       "dates": "Jan/2023 - Present",
-      "products": [
-        {
-          "name": "App One",
-          "url": "https://appone.techcorp.com",
-          "primary_role": "Senior Software Engineer",
-          "duration": "4 months",
-          "tech_stack": ["react"],
-          "details": [
-            "Led the development of a new feature that increased user engagement by 20%.",
-            "Collaborated with cross-functional teams to design and implement scalable solutions"
-          ]
-      }
-     ]
+      "details": [
+        "Developed new user-facing features using React.js and Node.js.",
+        "Wrote and maintained clean, reusable, and testable code, participating in peer-code reviews to ensure quality.",
+        "Collaborated with product managers and designers to translate requirements into technical specifications."
+      ]
+    },
+    {
+      "company": "Data Systems Inc.",
+      "location": "New York, NY",
+      "title": "Junior Developer",
+      "dates": "Jun/2021 – Dec/2022",
+      "details": [
+        "Assisted in the maintenance of legacy systems and databases, ensuring high availability.",
+        "Collaborated with senior developers on bug fixes and performance optimizations for client-facing applications."
+      ]
     }
   ],
   "projects": [
@@ -76,6 +77,12 @@
       "degree": "Master of Science in Computer Science",
       "location": "Anytown, USA",
       "dates": "2019 – 2021"
+    },
+    {
+      "institution": "Community College",
+      "degree": "Bachelor of Science in Information Technology",
+      "location": "Otherville, USA",
+      "dates": "2015 – 2019"
     }
   ]
 }
