@@ -1,11 +1,14 @@
 "use client"
 import ResumeComponent from "@/components/Resume";
-import { useRef } from "react";
 
 export default function Home() {
-  const pdfRef = useRef<HTMLDivElement | null>(null)
 
   return (
-    <ResumeComponent />
+    <div className="relative">
+      <button onClick={() => window.print()} className="no-print absolute bottom-4 right-4 z-10 bg-white px-4 py-2 border border-black rounded-md hover:bg-gray-100 text-black">
+        Print PDF
+      </button>
+      <ResumeComponent />
+    </div>
   );
 }

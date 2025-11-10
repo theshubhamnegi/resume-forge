@@ -9,7 +9,7 @@ const ResumeSection = ({ title, children, className }: { title: string, children
     >
       {title}
     </h2>
-    <div className={`text-xs ${className}`}>
+    <div className={`text-sm ${className}`}>
       {children}
     </div>
   </div>)
@@ -46,7 +46,7 @@ const ResumeComponent = () => {
       <ResumeSection title={"Skills"}>
         <div className="space-y-1">
           {SampleResumeData.skills.map((skill, index) => (
-            <div key={index} className="text-xs">
+            <div key={index} className="text-sm">
               <span className="font-semibold inline-block w-32">{skill.category}:</span>
               <span>{skill.items}</span>
             </div>
@@ -58,7 +58,7 @@ const ResumeComponent = () => {
 
         {SampleResumeData.experiences.map((exp, index) => (
           <div key={exp.company} className={`mb-6 ${index === SampleResumeData.experiences.length - 1 ? '' : 'pb-4'}`} style={index !== SampleResumeData.experiences.length - 1 ? { borderBottom: "1px solid #e5e7eb" } : {}}>
-            <div className="text-xs mb-1">
+            <div className="text-sm mb-1">
               Company Name -{" "}
               <a
                 href={exp.link}
@@ -69,17 +69,17 @@ const ResumeComponent = () => {
               </a>
             </div>
 
-            <div className="text-xs mb-1">
+            <div className="text-sm mb-1">
               Roles Held: {exp.roles}
             </div>
 
-            <div className="text-xs mb-8">
+            <div className="text-sm mb-8">
               Duration: {exp.duration}
             </div>
 
             {exp.projects.map((project, index) => (
               <div key={index} className="mb-5">
-                <div className="text-xs font-bold mb-1">
+                <div className="text-sm font-bold mb-1">
                   {project.link ? (
                     <a
                       href={project.link ?? "#"}
@@ -94,14 +94,14 @@ const ResumeComponent = () => {
                   )}
                 </div>
 
-                <div className="text-xs mb-8" style={{ color: "#374151" }}>
+                <div className="text-sm mb-8 italic">
                   {project.role}  /  {project.duration}  /  {project.techStack}
                 </div>
 
                 {project.bullets.length > 0 && (
                   <ul className="list-disc pl-5 space-y-1">
                     {project.bullets.map((bullet, bulletIndex) => (
-                      <li key={bulletIndex} className="text-xs leading-relaxed">
+                      <li key={bulletIndex} className="text-sm leading-relaxed">
                         {bullet}
                       </li>
                     ))}
