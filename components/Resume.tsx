@@ -112,9 +112,9 @@ const ResumeComponent = ({ resumeJson }: { resumeJson: ResumeJSON }) => {
                   {project.role}  /  {project.duration}  /  {project.techStack}
                 </div>
 
-                {project.bullets.length > 0 && (
+                {project.achievements.length > 0 && (
                   <ul className="list-disc pl-5 space-y-1">
-                    {project.bullets.map((bullet, bulletIndex) => (
+                    {project.achievements.map((bullet, bulletIndex) => (
                       <li key={bulletIndex} className="text-sm leading-relaxed">
                         {bullet}
                       </li>

@@ -1,12 +1,35 @@
 "use client"
 import ResumeComponent from "@/components/Resume";
-import { SampleResumeData } from "@/sampleResumeData";
+import { GeminiClient } from "@/lib/LLM/Gemini";
+import { LLM } from "@/lib/LLM/LLM";
+import { GENERATE_JSON_PROMPT } from "@/lib/prompts/prompt";
+import { SampleResumeData } from "@/lib/sampleResumeData";
+import { resumeSchema } from "@/lib/schema/resumeSchema";
+import { ResumeJSON } from "@/types";
 import { FileText, Sparkles } from "lucide-react";
 import { useState } from "react";
+import z from "zod";
 
 export default function Home() {
   const [resumeJson, setResumeJson] = useState<string>(JSON.stringify(SampleResumeData, null, 2));
   const [error, setError] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState<string | null>("AIzaSyDzxePhVFn_UiTA7aYoDfGiQ-6HgBdcBlU")
+  const [jobDescription, setJobDescription] = useState("")
+  const [isOptimizingResume, setIsOptimizingResume] = useState(false)
+
+  const convertResumeForSchema = (json: ResumeJSON) => {
+    return {
+      overview: json.overview,
+      experiences: json.experiences?.flatMap(exp => {
+        return exp?.projects?.map(project => ({
+          company: exp?.company,
+          projectName: project?.name,
+          achievements: project?.achievements ?? []
+        }))
+      })
+    }
+  }
+
   const parseAndValidateResumeJson = (resume: string) => {
     try {
       setResumeJson(resume)
@@ -17,16 +40,32 @@ export default function Home() {
       setError(`${error}`)
     }
   }
+
+  const handleOptimizeResumeButtonClick = async () => {
+    if (!apiKey) return setError("API key not set")
+    setIsOptimizingResume(true)
+    const geminiClient = new GeminiClient(apiKey)
+    const llm = new LLM(geminiClient);
+    const json = JSON.stringify(convertResumeForSchema(JSON.parse(resumeJson)))
+    const prompt = GENERATE_JSON_PROMPT.replace("{{SOURCE_JSON}}", json).replace("{{JOB_DESCRIPTION}}", jobDescription)
+    const updatedJson = await llm.generateJSON(prompt, z.array(resumeSchema))
+    console.log(updatedJson)
+    setIsOptimizingResume(false)
+  }
+
   return (
     <div className="relative">
       <header className="border-b border-border bg-card px-6 py-4 flex items-center justify-between no-print">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-semibold text-foreground">Resume Forge</h1>
+          <input placeholder="Input Gemini API key" value={apiKey ?? ""} onChange={(e) => {
+            setApiKey(e.target.value)
+          }} className="border border-white p-2 rounded-lg" />
         </div>
-        <button className="gap-2">
+        <button className={`gap-2 ${isOptimizingResume ? "pointer-events-none" : "pointer-events-auto"} cursor-pointer flex border border-white py-2 px-4 rounded-lg`} onClick={handleOptimizeResumeButtonClick}>
           <Sparkles className="h-4 w-4" />
-          Optimize with AI
+          {isOptimizingResume ? "Optimize with AI" : "Optimizing Resume..."}
         </button>
       </header>
 
@@ -35,6 +74,8 @@ export default function Home() {
 
           <textarea
             placeholder="Paste the job description here..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value?.trim())}
             className="h-full resize-none font-mono text-sm border border-white"
           />
 

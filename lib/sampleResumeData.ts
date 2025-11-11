@@ -1,4 +1,4 @@
-import { ResumeJSON } from "./types";
+import { ResumeJSON } from "@/types";
 
 export const SampleResumeData: ResumeJSON = {
   name: "DEEPAK SINGH",
@@ -58,7 +58,7 @@ export const SampleResumeData: ResumeJSON = {
           role: "Full Stack Developer",
           duration: "4 months",
           techStack: "React, Next.js, FastAPI, Supabase",
-          bullets: [
+          achievements: [
             "Architected a financial automation platform that converts raw datasets into executable Python scripts, improving analysis efficiency and eliminating manual workflows.",
             "Built a dual-backend system separating local spreadsheet handling from AI-driven logic to ensure stability and scalability.",
             "Implemented secure file storage, LLM integrations, and Supabase RLS-based access control, strengthening compliance and data protection.",

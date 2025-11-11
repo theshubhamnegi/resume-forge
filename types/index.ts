@@ -15,7 +15,7 @@ interface Project {
     role: string;
     duration: string;
     techStack: string;
-    bullets: string[];
+    achievements: string[];
 }
 
 interface Experience {
