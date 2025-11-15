@@ -4,11 +4,10 @@ import { GeminiClient } from "@/lib/LLM/Gemini";
 import { LLM } from "@/lib/LLM/LLM";
 import { GENERATE_JSON_PROMPT } from "@/lib/prompts/prompt";
 import { SampleResumeData } from "@/lib/sampleResumeData";
-import { resumeSchema } from "@/lib/schema/resumeSchema";
+import { ExperienceSchemaType, resumeSchema } from "@/lib/schema/resumeSchema";
 import { ResumeJSON } from "@/types";
 import { FileText, Sparkles } from "lucide-react";
 import { useState } from "react";
-import z from "zod";
 
 export default function Home() {
   const [resumeJson, setResumeJson] = useState<string>(JSON.stringify(SampleResumeData, null, 2));
@@ -48,8 +47,42 @@ export default function Home() {
     const llm = new LLM(geminiClient);
     const json = JSON.stringify(convertResumeForSchema(JSON.parse(resumeJson)))
     const prompt = GENERATE_JSON_PROMPT.replace("{{SOURCE_JSON}}", json).replace("{{JOB_DESCRIPTION}}", jobDescription)
-    const updatedJson = await llm.generateJSON(prompt, z.array(resumeSchema))
-    console.log(updatedJson)
+    const updatedJson = await llm.generateJSON(prompt, resumeSchema)
+    const validationResult = resumeSchema.safeParse(JSON.parse(updatedJson))
+    if (validationResult.success) {
+      const prevResume: ResumeJSON = JSON.parse(resumeJson)
+
+      const experienceMapByCompany = new Map<string, ExperienceSchemaType>()
+      const experienceMapByProjectName = new Map<string, ExperienceSchemaType>()
+
+      validationResult.data.experiences.forEach(exp => {
+        experienceMapByCompany.set(exp.company, exp)
+        experienceMapByProjectName.set(exp.projectName, exp)
+      })
+
+      const updatedResumeJson: ResumeJSON = {
+        ...prevResume,
+        overview: validationResult.data.overview,
+        experiences: prevResume.experiences.map(exp => {
+          if (experienceMapByCompany.has(exp.company)) {
+            return {
+              ...exp,
+              projects: exp.projects.map(project => {
+                if (experienceMapByProjectName.has(project.name)) {
+                  return {
+                    ...project,
+                    achievements: experienceMapByProjectName.get(project.name)?.achievements ?? []
+                  }
+                }
+                return project
+              })
+            }
+          }
+          return exp
+        })
+      }
+      setResumeJson(JSON.stringify(updatedResumeJson))
+    }
     setIsOptimizingResume(false)
   }
 
@@ -65,7 +98,7 @@ export default function Home() {
         </div>
         <button className={`gap-2 ${isOptimizingResume ? "pointer-events-none" : "pointer-events-auto"} cursor-pointer flex border border-white py-2 px-4 rounded-lg`} onClick={handleOptimizeResumeButtonClick}>
           <Sparkles className="h-4 w-4" />
-          {isOptimizingResume ? "Optimize with AI" : "Optimizing Resume..."}
+          {!isOptimizingResume ? "Optimize with AI" : "Optimizing Resume..."}
         </button>
       </header>
 
@@ -78,7 +111,6 @@ export default function Home() {
             onChange={(e) => setJobDescription(e.target.value?.trim())}
             className="h-full resize-none font-mono text-sm border border-white"
           />
-
           <textarea
             value={resumeJson}
             onChange={(e) => parseAndValidateResumeJson(e.target.value)}

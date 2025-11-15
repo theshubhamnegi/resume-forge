@@ -18,3 +18,5 @@ export const resumeSchema = z.object({
         "A chronological list of professional experiences, starting with the most recent. Each experience entry must strictly follow the structure defined in the experienceSchema. Include only relevant roles, avoiding unrelated jobs or filler entries."
     ),
 });
+
+export type ExperienceSchemaType = z.infer<typeof experienceSchema>
