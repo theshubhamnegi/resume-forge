@@ -82,6 +82,8 @@ export default function Home() {
         })
       }
       setResumeJson(JSON.stringify(updatedResumeJson))
+    }else{
+      console.log(validationResult.error)
     }
     setIsOptimizingResume(false)
   }
