@@ -14,7 +14,7 @@ const experienceSchema = z.object({
 });
 
 export const resumeSchema = z.object({
-    overview: z.string().max(300, "Overview cannot be more than 300 characters.").describe(
+    overview: z.string().max(350, "Overview cannot be more than 300 characters.").describe(
         "A concise 3 to 5 sentence professional summary describing the user's core skills, experience level, and strengths. Should be written in first-person or third-person neutral tone suitable for a modern resume. Avoid bullet points, avoid exaggerations, and focus on factual, high-impact statements."
     ),
     experiences: z.array(experienceSchema).describe(
